@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>轮播图</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+    }
+    
+    body {
+        padding: 20px;
+    }
+    
+    #container {
+        width: 600px;
+        height: 400px;
+        border: 3px solid #333;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    #cen {
+        width: 4200px;
+        height: 400px;
+        position: absolute;
+        
+        z-index: 1;
+    }
+    
+    .pictu {
+        float: left;
+    }
+    
+    #buttons {
+        position: absolute;
+        bottom: 20px;
+        left: 250px;
+        z-index: 2;
+        width: 100px;
+        height: 10px;
+    }
+    
+    #buttons span {
+    	cursor: pointer;
+        border: 1px solid #fff;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+        float: left;
+        background-color: #333;
+    }
+    #buttons .on{
+    	background-color: orangered;
+    }
+    .arrow{
+		cursor: pointer;
+		display: none;
+		background-color: rgba(0,0,0,0.3);
+		position: absolute;
+		top:180px;
+		width: 40px;
+		height: 40px;
+		z-index: 2;
+		color: #fff;
+		font-size: 36px;
+		text-align: center;
+		font-weight: bold;
+		line-height: 39px;
+    }
+    .arrow:hover{
+    	background-color: rgba(0,0,0,0.7);
+    }
+    #container:hover .arrow{
+		display: block;
+    }
+    #prev{
+    	left:20px;
+    }
+    #next{
+    	right: 20px;
+    }
+    </style>
+    <script type="text/javascript">
+    	window.onload = function(){
+    		var cen = document.getElementById("cen");
+    		var buttons = document.getElementById("buttons").getElementsByTagName("span");
+    		var prev = document.getElementById("prev");
+    		var next = document.getElementById("next");
+    		var container = document.getElementById("container")
+
+    		next.onclick = function() {
+    			cen.style.left = parseInt(cen.style.left)-600+'px';
+    			if(parseInt(cen.style.left)<-3000){
+    				cen.style.left = "-600px";
+    			}
+    			buttonOn();
+    		};
+
+    		prev.onclick = function() {
+    			cen.style.left = parseInt(cen.style.left)+600+'px';
+    			if(parseInt(cen.style.left)>-600){
+    				cen.style.left = "-3000px";
+    			}
+    			buttonOn();
+    		};
+
+    		function buttonOn(){
+    			var index = parseInt(cen.style.left)/(-600);
+    			for(var i = 0; i<buttons.length; i++){
+    				if((i+1) === index){
+    					buttons[i].className = "on";
+    				}else{
+    					buttons[i].className = "";
+    				}
+    			}
+    		}
+
+
+    		for(var j = 0; j<buttons.length; j++){
+    			buttons[j].onclick = function(){
+    				var index = this.getAttribute("index")
+    				cen.style.left = index*(-600)+"px";
+    				buttonOn();
+    			}
+    		}
+
+    		function play(){
+    			timer = setInterval(function(){
+    				next.onclick();
+    				//play();
+    			},2000)
+    		}
+
+    		function stop(){
+    			clearTimeout(timer);
+    		}
+
+    		container.onmouseout = play;
+    		container.onmouseover = stop;
+
+    		play();
+    	}
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="cen" style="left: -600px;">
+            <img id="jpg5" src=".\img\5.jpg" class="pictu">
+            <img id="jpg1" src=".\img\1.jpg" class="pictu">
+            <img id="jpg2" src=".\img\2.jpg" class="pictu">
+            <img id="jpg3" src=".\img\3.jpg" class="pictu">
+            <img id="jpg4" src=".\img\4.jpg" class="pictu">
+            <img id="jpg5" src=".\img\5.jpg" class="pictu">
+            <img id="jpg1" src=".\img\1.jpg" class="pictu">
+        </div>
+        <div id="buttons">
+            <span index="1" class="on"></span>
+            <span index="2"></span>
+            <span index="3"></span>
+            <span index="4"></span>
+            <span index="5"></span>
+        </div>
+        <a href="javascript:;" id="prev" class="arrow">&lt;</a>
+        <a href="javascript:;" id="next" class="arrow">&gt;</a>
+    </div>
+</body>
+
+</html>
+
