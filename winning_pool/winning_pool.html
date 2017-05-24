@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+    <title>Winning</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        width: 750px;
+        height: 400px;
+        top: 50%;
+        left: 50%;
+        margin: -200px 0 0 -375px;
+        position: absolute;
+        /*background-color: black;*/
+    }
+    
+    .num {
+        width: 175px;
+        height: 265px;
+        margin-left: 6px;
+        float: left;
+        background: url(num.png) top center repeat-y #ccc;
+        /*background-color: red;*/
+        color: white;
+        font-size: 300px;
+        line-height: 265px;
+    }
+    
+    #btn {
+        width: 100px;
+        height: 40px;
+        position: absolute;
+        margin-top: 20px;
+        left: 325px;
+    }
+    
+    #not {
+        clear: both;
+    }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var btn = document.getElementById("btn");
+        //var num = document.getElementsByClassName("num");
+        var blo = 265;
+
+        function ranNum() {
+            var low_li = 0;
+            var up_li = 9999;
+            var aa = Math.random() * (up_li - low_li);
+            return Math.floor(aa);
+        }
+
+        ani = false;
+
+        btn.onclick = function() {
+            //alert(ranNum());
+            if (ani) {
+                return true;
+            }
+            ani = true;
+            $('.num').css("backgroundPositionY",0);
+            var ran_num = (ranNum()+'').split('');
+            console.log(ran_num);
+            $('.num').each(function(index){
+            	var ele = $(this);
+            	setTimeout(function(){
+            		ele.animate({
+            			'backgroundPositionY': blo*30-blo * ran_num[index]
+            		},{
+            			duration: 1000+index*500,
+            			easing:"easeOutBounce",
+            			complete:function(){
+            				if(index === 3){
+            					ani = false;
+            					console.log(ani);
+            				}
+            			}
+            		})
+            	},300*index);
+            })
+
+        }
+    })
+    </script>
+</head>
+
+<body>
+    <div class="container" id="vm">
+        <div class="num"></div>
+        <div class="num"></div>
+        <div class="num"></div>
+        <div class="num"></div>
+        <div id="not"></div>
+        <button id="btn">开始摇奖</button>
+</body>
+
+</html>
